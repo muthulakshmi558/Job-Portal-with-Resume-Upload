@@ -23,10 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)mc!z0#4hqzan@oirw3qnszp(35q!92-f!(njj*@mc-yk7$20$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "job-portal-with-resume-upload.onrender.com",
+]
 
 # Application definition
 
@@ -126,10 +129,16 @@ import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Static
+# Static files (CSS, JS, Images)
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+# 👇 Add this line for Render/production
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Email (dev - console backend; use SMTP in prod)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
