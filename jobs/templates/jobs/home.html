@@ -1,0 +1,17 @@
+{% extends 'jobs/Layout/base.html' %}
+{% block title %}Home — Job Portal{% endblock %}
+{% block content %}
+  <h1>Welcome to JobPortal</h1>
+  <p>Find and apply to jobs. Employers can post jobs here.</p>
+
+  <section>
+    <h2>Latest Jobs</h2>
+    <ul>
+      {% for job in jobs|default:None %}
+        <li><a href="{{ job.get_absolute_url }}">{{ job.title }} @ {{ job.company }}</a></li>
+      {% endfor %}
+    </ul>
+    <p><a href="{% url 'jobs:job_list' %}">See all jobs</a></p>
+  </section>
+
+{% endblock %}

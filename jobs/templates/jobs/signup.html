@@ -1,0 +1,10 @@
+{% extends 'jobs/Layout/base.html' %}
+{% block content %}
+<h1>Register</h1>
+<form method="post">{% csrf_token %}
+  {{ form.as_p }}
+  <label for="company">If you are an employer, enter company (optional):</label>
+  <input type="text" name="company" id="company">
+  <button type="submit">Register</button>
+</form>
+{% endblock %}

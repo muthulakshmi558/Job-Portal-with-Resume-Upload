@@ -1,0 +1,34 @@
+{% extends 'jobs/Layout/base.html' %}
+{% block content %}
+<h1>{{ job.title }} — {{ job.company }}</h1>
+<p><strong>Location:</strong> {{ job.location }}</p>
+<p>{{ job.description|linebreaks }}</p>
+<p>Posted by: {{ job.posted_by.username }} on {{ job.created_at|date:"SHORT_DATETIME_FORMAT" }}</p>
+
+{% if user.is_authenticated and user.profile.role == 'applicant' %}
+  <h3>Apply</h3>
+  <form action="{% url 'jobs:job_apply' job.pk %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ application_form.as_p }}
+    <button type="submit">Apply</button>
+  </form>
+{% elif not user.is_authenticated %}
+  <p><a href="{% url 'login' %}?next={{ request.path }}">Login</a> to apply.</p>
+{% endif %}
+
+{% if user == job.posted_by %}
+  <p>
+    <a href="{% url 'jobs:job_edit' job.pk %}">Edit</a> |
+    <a href="{% url 'jobs:job_delete' job.pk %}">Delete</a>
+  </p>
+
+  <h3>Applications</h3>
+  <ul>
+    {% for app in job.applications.all %}
+      <li>{{ app.applicant.username }} - {{ app.status }} - <a href="{{ app.resume.url }}">Resume</a></li>
+    {% empty %}
+      <li>No applications yet.</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endblock %}

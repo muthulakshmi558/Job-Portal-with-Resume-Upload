@@ -1,0 +1,25 @@
+{% extends 'jobs/Layout/base.html' %}
+{% block content %}
+  <h1>Employer Dashboard</h1>
+  <p><a href="{% url 'jobs:job_create' %}">Post a new job</a></p>
+
+  <h2>Your Jobs</h2>
+  <ul>
+    {% for job in jobs %}
+      <li>
+        <a href="{{ job.get_absolute_url }}">{{ job.title }}</a> —
+        <a href="{% url 'jobs:job_edit' job.pk %}">Edit</a> |
+        <a href="{% url 'jobs:job_delete' job.pk %}">Delete</a>
+        <ul>
+          {% for app in job.applications.all %}
+            <li>{{ app.applicant.username }} - {{ app.status }} - <a href="{{ app.resume.url }}">Resume</a></li>
+          {% empty %}
+            <li>No applications</li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% empty %}
+      <li>No posted jobs yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

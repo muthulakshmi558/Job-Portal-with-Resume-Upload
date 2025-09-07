@@ -1,0 +1,22 @@
+{% extends "jobs/Layout/base.html" %}
+{% load static %}
+
+{% block title %}Login | Job Portal{% endblock %}
+
+{% block content %}
+<div class="container center" style="min-height:70vh;">
+  <div class="card" style="padding:2rem; border-radius:12px; width:100%; max-width:400px;">
+    <h2 style="margin-bottom:1rem; color:#4B69A9;">Login</h2>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+
+    <p style="margin-top:1rem;">Don’t have an account? 
+      <a href="{% url 'jobs:signup' %}">Register here</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

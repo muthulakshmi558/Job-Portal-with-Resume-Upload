@@ -1,0 +1,30 @@
+{% extends 'jobs/Layout/base.html' %}
+{% block content %}
+<h1>Job Listings</h1>
+<form method="get">
+  {{ search_form.q.label_tag }} {{ search_form.q }}
+  {{ search_form.location.label_tag }} {{ search_form.location }}
+  <button type="submit">Search</button>
+</form>
+
+<ul>
+  {% for job in jobs %}
+    <li>
+      <a href="{{ job.get_absolute_url }}">{{ job.title }}</a> — {{ job.company }}
+      <small>({{ job.location }})</small>
+    </li>
+  {% empty %}
+    <li>No jobs found.</li>
+  {% endfor %}
+</ul>
+
+<div class="pagination">
+  {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}">Previous</a>
+  {% endif %}
+  <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}">Next</a>
+  {% endif %}
+</div>
+{% endblock %}

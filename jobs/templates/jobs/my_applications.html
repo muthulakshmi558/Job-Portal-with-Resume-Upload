@@ -1,0 +1,16 @@
+{% extends 'jobs/Layout/base.html' %}
+{% block content %}
+  <h1>My Applications</h1>
+  <ul>
+    {% for app in applications %}
+      <li>
+        <a href="{{ app.job.get_absolute_url }}">{{ app.job.title }}</a> - {{ app.status }}
+        <form action="{% url 'jobs:application_withdraw' app.pk %}" method="post" style="display:inline">{% csrf_token %}
+          <button type="submit">Withdraw</button>
+        </form>
+      </li>
+    {% empty %}
+      <li>You have not applied to any jobs.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

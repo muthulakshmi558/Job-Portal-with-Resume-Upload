@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  {% load static %}
+
+  <meta charset="utf-8">
+  <title>{% block title %}Job Portal{% endblock %}</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+  <nav>
+    <a href="{% url 'jobs:home' %}">Home</a> |
+    <a href="{% url 'jobs:job_list' %}">Jobs</a>
+    {% if user.is_authenticated %}
+      {% if user.profile.role == 'employer' %}
+        | <a href="{% url 'jobs:employer_dashboard' %}">Employer Dashboard</a>
+        | <a href="{% url 'jobs:job_create' %}">Post a Job</a>
+      {% else %}
+        | <a href="{% url 'jobs:my_applications' %}">My Applications</a>
+      {% endif %}
+      | 
+      <form method="post" action="{% url 'jobs:logout' %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" style="background:none; border:none; color:blue; cursor:pointer;">
+          Logout ({{ user.username }})
+        </button>
+      </form>
+    {% else %}
+      | <a href="{% url 'jobs:login' %}">Login</a> | <a href="{% url 'jobs:signup' %}">Register</a>
+    {% endif %}
+  </nav>
+
+  <main>
+    {% for message in messages %}
+      <div class="message">{{ message }}</div>
+    {% endfor %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <p>&copy; {{ year }} JobPortal</p>
+  </footer>
+</body>
+</html>
