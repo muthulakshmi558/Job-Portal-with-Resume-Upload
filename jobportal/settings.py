@@ -28,7 +28,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "job-portal-with-resume-upload.onrender.com",
+    "job-portal-with-resume-upload-1.onrender.com",
 ]
 
 # Application definition
